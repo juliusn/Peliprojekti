@@ -1,4 +1,4 @@
-package peliprojekti; // HALOJATA HALLOOO
+package peliprojekti; // jotain muuta
 
 public class Main {
 
