@@ -6,21 +6,21 @@ public class StartMenu {
 	}
 
 	public void choose() {
-		// Luo pelaaja tai avaa tallennettu peli
+		// Alkuvalikossa valitaan, luodaanko uusi pelaaja vai avataanko tallennettu peli. 
 		System.out.println("Alkuvalikko: new/open/q");
 		CommandInterpreter newCommandInterpreter = new CommandInterpreter();
 		Player player = new Player();
-		GameEngine newGameEngine = new GameEngine(player);
+		GameEngine newGameEngine = new GameEngine(player); // luodaan pelimoottori uudelle pelaajalle
 		String startMenuChoice = newCommandInterpreter.consoleCommand();
 		System.out.println("Valitsit: "+startMenuChoice);
 		switch (startMenuChoice) {
 		case "q":
-			break;
+			break; // lopeta
 		case "new":
-			newGameEngine.gameLoop();
+			newGameEngine.gameLoop(); // kutsutaan pelimoottorin pelilooppia
 			break;
 		case "open":
-			player.openPlayer();
+			player.openPlayer(); // kutsutaan metodia, joka avaa tallennetun pelin
 			newGameEngine.gameLoop();
 			break;
 		}
