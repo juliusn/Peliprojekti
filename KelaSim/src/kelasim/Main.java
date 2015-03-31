@@ -7,5 +7,6 @@ public class Main {
 		// testi
 		// VITTU SAATANA
 	}	// asjdlaskdjaslkdj3535335
+	    // ÄÄLÄLÄÄL ÖLÖLÖLÖ
 
 }
