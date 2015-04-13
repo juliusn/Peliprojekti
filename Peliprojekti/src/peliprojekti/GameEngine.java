@@ -29,6 +29,9 @@ public class GameEngine {
 			case "skip":
 				newCalendar.increaseDateCounter();
 				break;
+			case "save": // Tallentaa pelin
+				player.savePlayer();
+				break;
 			}
 		}
 		System.out.println("Exit gameloop");
