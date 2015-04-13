@@ -1,6 +1,6 @@
 package peliprojekti;
 
-public class Calendar {
+public class Calendar implements Serializable {
 	private int dateCounter = 0;
 	
 	public int getDateCounter() {
