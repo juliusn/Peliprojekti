@@ -10,10 +10,21 @@ public class Player implements Serializable {
 		return null;
 	}
 
-	public void openPlayer() { // tallennetun pelin avaaminen, kesken. 
+	private void openPlayer() { // tallennetun pelin avaaminen, kesken. 
 		this.money = 10; // testiarvoja
 		this.health = 100; // testiarvoja
 		this.sanity = 100; // testiarvoja
+	}
+	private void savePlayer() { //kesken
+		try {
+			FileOutputStream out = new FileOutputStream("player.ser");
+			ObjectOutputStream obout = new ObjectOutputStream(out);
+			obout.writeObject(Player);
+			obout.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("player.ser ei löytynyt.");
+			e.printStackTrace();
+		}
 	}
 	
 	public double getMoney() {
