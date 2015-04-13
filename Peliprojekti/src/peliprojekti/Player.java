@@ -1,6 +1,6 @@
 package peliprojekti;
 
-public class Player {
+public class Player implements Serializable {
 	private double money = 0;
 	private double health = 0;
 	private double sanity = 0;
@@ -12,7 +12,7 @@ public class Player {
 
 	public void openPlayer() { // tallennetun pelin avaaminen, kesken. 
 		this.money = 10; // testiarvoja
-		this.health = 200; // testiarvoja
+		this.health = 100; // testiarvoja
 		this.sanity = 100; // testiarvoja
 	}
 	
