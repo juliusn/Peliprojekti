@@ -4,6 +4,7 @@ public class GameEngine {
 	private Player player;
 	private CommandInterpreter newCommandInterpreter = new CommandInterpreter(); 
 	private Calendar newCalendar = new Calendar();
+	private Grocery newGrocery = new Grocery();
 
 	public GameEngine(Player player) {
 		this.player = player;
@@ -31,6 +32,12 @@ public class GameEngine {
 				break;
 			case "save": // Tallentaa pelin
 				player.savePlayer();
+				break;	
+			case "buy food":
+				newGrocery.buyFood();
+				break;
+			default:
+				System.out.println("Nothing happens.");
 				break;
 			}
 		}
