@@ -1,24 +1,29 @@
 package peliprojekti;
 
+import java.io.Serializable;
+
 public class GameEngine {
 	private Player player;
 	private CommandInterpreter newCommandInterpreter = new CommandInterpreter(); 
 	private Calendar newCalendar = new Calendar();
-
+	public boolean quit = false;
 	public GameEngine(Player player) {
 		this.player = player;
 	}
 
 	public void gameLoop() {
-		boolean quit = false;
 		System.out.println("KelaSim");
 		while (quit == false) { // Tässä loopissa pelaaminen tapahtuu. 
 			System.out.println("Day "+newCalendar.getDateCounter());
+			System.out.println("Pelivalikko: q/save/testi/stats/skip");
 			String command = newCommandInterpreter.consoleCommand();
 			System.out.println("Valitsit: " + command);
 			switch (command) {
 			case "q":
 				quit = true;
+				break;
+			case "save":
+
 				break;
 			case "testi":
 				System.out.println("Testi toimii. ");

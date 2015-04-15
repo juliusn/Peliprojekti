@@ -2,7 +2,7 @@ package peliprojekti;
 
 import java.util.Scanner;
 
-public transient class CommandInterpreter {
+public class CommandInterpreter {
 	public String consoleCommand() {
 		System.out.print("Anna komento: ");
 		@SuppressWarnings("resource")
