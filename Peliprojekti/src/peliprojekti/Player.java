@@ -9,10 +9,11 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Player implements Serializable {
-	private double money = 0;
-	private double health = 0;
-	private double sanity = 0;
+	public double money = 0;
+	public double health = 0;
+	public double sanity = 0;
 	Player player = null;
+	
 	public Player createNewPlayer() {
 		money = 10;
 		health = 100;
@@ -48,15 +49,16 @@ public class Player implements Serializable {
 			i.printStackTrace();
 		}
 	}
-
-
-	public double getMoney() {
-		return money;
+	public double getPlayerMoney() {
+		return this.money;
 	}
-	public double getHealth() {
-		return health;
+	public double getPlayerHealth() {
+		return this.health;
 	}
-	public double getSanity() {
-		return sanity;
+	public double getPlayerSanity() {
+		return this.sanity;
+	}
+	public void increasePlayerMoney(double value) {
+		this.money = this.money + value;
 	}
 }
