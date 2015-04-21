@@ -6,9 +6,9 @@ public class Grocery {
 		if (player.getPlayerMoney() >= 10) { // Katsotaan onko pelaajalla tarpeeksi rahaa
 			player.changePlayerMoney(-10);
 			player.changePlayerHealth(10);
-			System.out.println("Money: -10, health: +10");
+			System.out.println("Raha: -10, terveys: +10");
 		} else {
-			System.out.println("Not enough money!");
+			System.out.println("Ei tarpeeksi rahaa!");
 		}	
 	}
 }
