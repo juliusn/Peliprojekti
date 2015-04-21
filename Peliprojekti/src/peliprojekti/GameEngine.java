@@ -9,6 +9,7 @@ public class GameEngine {
 	public boolean quit = false;
 
 	private Grocery newGrocery = new Grocery();
+	private Application newApplication = new Application();
 
 	public GameEngine(Player player) {
 		this.player = player;
@@ -37,8 +38,11 @@ public class GameEngine {
 			case "buy food":
 				newGrocery.buyFood(this.player);
 				break;
+			case "fill application":
+				newApplication.fillApplication();
+				break;
 			default:
-				System.out.println("Nothing happens.");
+				System.out.println("Mitään ei tapahdu.");
 				break;
 			}
 		}
