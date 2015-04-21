@@ -1,7 +1,7 @@
 package peliprojekti;
 
 public class Application {
-
+		private Player player;
 		private Calendar newCalendar = new Calendar();
 		private int kasittelypaiva = 0;
 		private int x = 0;
@@ -9,7 +9,7 @@ public class Application {
 		public void fillApplication() {
 			// lomakkeen täyttäminen
 			x = (int) (Math.random()*20) + 10; // testausta varten
-			kasittelypaiva = newCalendar.getDateCounter() + x; // testausta varten
+			kasittelypaiva = newCalendar.dateCounter + x; // testausta varten
 			System.out.println("Lomake on täytetty, odota "+x+" päivää.");
 		}
 
@@ -19,7 +19,7 @@ public class Application {
 
 		public void checkApplication() {
 		// tehdään GameEnginen while looppissa
-			if (kasittelypaiva == newCalendar.getDateCounter()) {
+			if (kasittelypaiva == newCalendar.dateCounter) {
 				// tuet tulee
 				Player.money = Player.money + 100;
 				System.out.println("Hakemuksesi on käsitelty!");
