@@ -1,7 +1,6 @@
 package peliprojekti;
 
 public class Application {
-		private Player player;
 		private Calendar newCalendar = new Calendar();
 		private int kasittelypaiva = 0;
 		private int x = 0;
