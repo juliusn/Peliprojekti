@@ -1,9 +1,13 @@
 package peliprojekti;
 
+import java.io.Serializable;
+
 public class GameEngine {
 	private Player player;
 	private CommandInterpreter newCommandInterpreter = new CommandInterpreter(); 
 	private Calendar newCalendar = new Calendar();
+	public boolean quit = false;
+
 	private Grocery newGrocery = new Grocery();
 
 	public GameEngine(Player player) {
@@ -11,30 +15,27 @@ public class GameEngine {
 	}
 
 	public void gameLoop() {
-		boolean quit = false;
 		System.out.println("KelaSim");
 		while (quit == false) { // Tässä loopissa pelaaminen tapahtuu. 
-			System.out.println("Day "+newCalendar.getDateCounter());
+			System.out.println("Day "+newCalendar.dateCounter);
+			System.out.println("Pelivalikko: q/save/buy food/stats/skip");
 			String command = newCommandInterpreter.consoleCommand();
 			System.out.println("Valitsit: " + command);
 			switch (command) {
 			case "q":
 				quit = true;
 				break;
-			case "testi":
-				System.out.println("Testi toimii. ");
-				break;
 			case "stats":
-				System.out.println("Raha: "+player.getMoney()+", terveys: "+player.getHealth());
+				System.out.println("Raha: "+player.getPlayerMoney()+", terveys: "+player.getPlayerHealth());
 				break;
 			case "skip":
-				newCalendar.increaseDateCounter();
+				newCalendar.dateCounter = newCalendar.dateCounter + 1;
 				break;
 			case "save": // Tallentaa pelin
 				player.savePlayer();
 				break;	
 			case "buy food":
-				newGrocery.buyFood();
+				newGrocery.buyFood(this.player);
 				break;
 			default:
 				System.out.println("Nothing happens.");
