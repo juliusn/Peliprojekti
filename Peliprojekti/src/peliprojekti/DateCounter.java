@@ -2,9 +2,9 @@ package peliprojekti;
 
 import java.io.Serializable;
 
-public class Calendar implements Serializable {
+public class DateCounter implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public int dateCounter = 0;
+	public static int dateCounter = 0;
 	public int getDateCounter() {
 		return dateCounter;
 	}

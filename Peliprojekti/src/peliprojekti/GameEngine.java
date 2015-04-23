@@ -1,21 +1,22 @@
 package peliprojekti;
 
-import java.io.Serializable;
+import com.googlecode.lanterna.gui.Border;
+import com.googlecode.lanterna.gui.GUIScreen;
 
 public class GameEngine {
-	private Player player;
-	private CommandInterpreter newCommandInterpreter = new CommandInterpreter(); 
-	private Calendar newCalendar = new Calendar();
-	public boolean quit = false;
-
-	private Grocery newGrocery = new Grocery();
-	private Application newApplication = new Application();
 
 	public GameEngine(Player player) {
-		this.player = player;
+		System.out.println("GameEngine created with "+player.toString());
 	}
 
-	public void gameLoop() {
+	public void play(Player player) {
+		System.out.println("Play method started");
+		GameWindow gameWindow = new GameWindow(player);
+		gameWindow.setBorder((new Border.Invisible()));
+		
+		Main.gui.showWindow(gameWindow, GUIScreen.Position.FULL_SCREEN);
+
+		/* VANHA PELIMOOTTORI ON TÄSSÄ METODISSA. 
 		System.out.println("KelaSim");
 		while (quit == false) { // Tässä loopissa pelaaminen tapahtuu. 
 			System.out.println("Day "+newCalendar.getDateCounter());
@@ -39,7 +40,7 @@ public class GameEngine {
 				newGrocery.buyFood(this.player);
 				break;
 			case "fill application":
-				newApplication.fillApplication();
+				newApplication.fillApplication(player);
 				break;
 			default:
 				System.out.println("Mitään ei tapahdu.");
@@ -47,5 +48,8 @@ public class GameEngine {
 			}
 		}
 		System.out.println("Exit gameloop");
+		 */
+		System.out.println("Exit GameEngine");
 	}
+
 }
