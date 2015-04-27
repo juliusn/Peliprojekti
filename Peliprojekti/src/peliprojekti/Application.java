@@ -1,6 +1,7 @@
 package peliprojekti;
 
 public class Application {
+		//private Player player;
 		private Calendar newCalendar = new Calendar();
 		private int kasittelypaiva = 0;
 		private int x = 0;
@@ -20,11 +21,12 @@ public class Application {
 		// tehdään GameEnginen while looppissa
 			if (kasittelypaiva == newCalendar.dateCounter) {
 				// tuet tulee
-				Player.money = Player.money + 100;
+				// player.changePlayerMoney(100); 
 				System.out.println("Hakemuksesi on käsitelty!");
 				System.out.println("Raha: +100");
 			} else {
 				// tuet eivät tule
+				System.out.println("Ei rahaa kelasta");
 		}
 	}
 
