@@ -32,7 +32,7 @@ public class GameWindow extends Window {
 		Panel playerPanelInfo3 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 
 		Date now = new Date();
-		infoPanelInfo1.addComponent(new Label("Aika: "
+		infoPanelInfo1.addComponent(new Label("Päivä "
 				+now
 				));
 		infoPanelInfo2.addComponent(new Label("Postilaatikko"));
