@@ -16,7 +16,7 @@ public class GameEngine {
 		
 		Main.gui.showWindow(gameWindow, GUIScreen.Position.FULL_SCREEN);
 
-		/* VANHA PELIMOOTTORI ON TÄSSÄ METODISSA. 
+		/* VANHA PELIMOOTTORI ON TÄSSÄ. 
 		System.out.println("KelaSim");
 		while (quit == false) { // Tässä loopissa pelaaminen tapahtuu. 
 			System.out.println("Day "+newCalendar.getDateCounter());

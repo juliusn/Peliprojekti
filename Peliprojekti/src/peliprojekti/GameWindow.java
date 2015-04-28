@@ -38,10 +38,11 @@ public class GameWindow extends Window {
 		infoPanelInfo2.addComponent(new Label("Postilaatikko"));
 		infoPanelInfo3.addComponent(new Label("Muuta"));
 
-		actionPanel.addComponent(new Button("Nappi", new Action() {
+		actionPanel.addComponent(new Button("Tee Hakemus", new Action() {
 			//@Override
 			public void doAction() {
-				MessageBox.showMessageBox(getOwner(), "Hienoa!", "Painoit nappia.");
+				Application newApplication = new Application();
+				newApplication.fill();
 			}
 		}));
 		actionPanel.addComponent(new Button("Nappi 2", new Action() {
