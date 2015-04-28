@@ -1,11 +1,29 @@
 package peliprojekti;
 
-public class Application {
+import com.googlecode.lanterna.gui.Window;
+
+public class Application extends Window {
+	private String name = null;
+	
+	
+	public Application(String title) {
+		super(title);
+		this.name = title;
+		System.out.println("Application "+title+" created");
+	}
+
 	private Calendar newCalendar = new Calendar();
 	private int kasittelypaiva = 0;
 	private int x = 0;
 
-	public void fillApplication(Player player) {/*
+
+	public void fillApplication(Player player) {
+
+
+
+
+
+		/*
 			// lomakkeen täyttäminen
 			x = (int) (Math.random()*20) + 10; // testausta varten
 			kasittelypaiva = newCalendar.getDateCounter() + x; // testausta varten
@@ -41,9 +59,13 @@ public class Application {
 	}
 
 	public void fill() {
-		
-		
+
+
 	}
+
+
+	public String getName() {
+		return this.name;
+	}
+
 }
-
-

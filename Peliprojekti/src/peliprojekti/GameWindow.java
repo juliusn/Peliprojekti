@@ -9,16 +9,19 @@ import com.googlecode.lanterna.gui.component.Button;
 import com.googlecode.lanterna.gui.component.EmptySpace;
 import com.googlecode.lanterna.gui.component.Label;
 import com.googlecode.lanterna.gui.component.Panel;
+import com.googlecode.lanterna.gui.component.TextArea;
 import com.googlecode.lanterna.gui.dialog.MessageBox;
 import com.googlecode.lanterna.gui.layout.LinearLayout;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class GameWindow extends Window {
 
 
-	public GameWindow(Player player) {
+	public GameWindow(final Player player) {
 		super("KelaSim");
+
 		Panel infoPanel = new Panel(Panel.Orientation.HORISONTAL);
 		Panel infoPanelInfo1 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 		Panel infoPanelInfo2 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
@@ -31,21 +34,32 @@ public class GameWindow extends Window {
 		Panel playerPanelInfo2 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 		Panel playerPanelInfo3 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 
-		Date now = new Date();
-		infoPanelInfo1.addComponent(new Label("Päivä "
-				+now
+		infoPanelInfo1.addComponent(new TextArea("Päivä "
+				+player.getPlayerAge()
 				));
 		infoPanelInfo2.addComponent(new Label("Postilaatikko"));
 		infoPanelInfo3.addComponent(new Label("Muuta"));
 
+
+
+		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
+		actionPanel.addComponent(new Button("Nuku", new Action() {
+			public void doAction() {
+				player.keepPlaying = true;
+				player.changePlayerAge(1);
+				close();
+				//Tähän refresh!
+			}
+		}
+				));
 		actionPanel.addComponent(new Button("Tee Hakemus", new Action() {
 			//@Override
 			public void doAction() {
-				Application newApplication = new Application();
-				newApplication.fill();
+				ApplicationMenu applicationMenu = new ApplicationMenu();
+				Main.gui.showWindow(applicationMenu);
 			}
 		}));
-		actionPanel.addComponent(new Button("Nappi 2", new Action() {
+		actionPanel.addComponent(new Button("Tallenna", new Action() {
 			//@Override
 			public void doAction() {
 				MessageBox.showMessageBox(getOwner(), "Hienoa!", "Painoit toista nappia.");
@@ -54,21 +68,11 @@ public class GameWindow extends Window {
 		actionPanel.addComponent(new Button("Lopeta", new Action() {
 			//@Override
 			public void doAction() {
+				player.keepPlaying = false;
 				close();
 			}
 		}));
-
-		ActionListBox actionListBox = new ActionListBox();
-		Action pilipali = new Action() {
-			public void doAction() {
-				System.out.println("pilipali");
-			}
-		};
-		Action lopeta = new Action() {
-			public void doAction() {
-				close();	
-			}
-		};
+		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
 
 		playerPanelInfo1.addComponent(new Label("Raha: "+player.getPlayerMoney()+"€"));
 		playerPanelInfo2.addComponent(new Label("Hyvinvointi: "+player.getPlayerHealth()));
@@ -79,13 +83,6 @@ public class GameWindow extends Window {
 		infoPanel.addComponent(infoPanelInfo2);
 		infoPanel.addComponent(infoPanelInfo3);
 		infoPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
-
-		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
-		actionListBox.addAction(pilipali);
-		actionListBox.addAction(lopeta);
-		actionPanel.addComponent(actionListBox);
-		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
-
 
 		playerPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
 		playerPanel.addComponent(playerPanelInfo1);

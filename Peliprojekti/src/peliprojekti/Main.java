@@ -43,7 +43,7 @@ public class Main {
 		 * gui.showWindow-metodia seuraavasti: */
 		
 		MainMenu newMainMenu = new MainMenu(); // Luodaan päävalikko
-		gui.showWindow(newMainMenu, GUIScreen.Position.OVERLAPPING); // Avataan päävalikko
+		gui.showWindow(newMainMenu, GUIScreen.Position.CENTER); // Avataan päävalikko
 		
 		gui.getScreen().stopScreen(); // Suljetaan graafinen näkymä
 		System.out.println("Screen "+startupScreen.toString()+" stopped");

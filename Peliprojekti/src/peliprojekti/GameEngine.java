@@ -1,9 +1,11 @@
 package peliprojekti;
 
+import java.io.Serializable;
+
 import com.googlecode.lanterna.gui.Border;
 import com.googlecode.lanterna.gui.GUIScreen;
 
-public class GameEngine {
+public class GameEngine implements Serializable {
 
 	public GameEngine(Player player) {
 		System.out.println("GameEngine created with "+player.toString());
@@ -11,12 +13,14 @@ public class GameEngine {
 
 	public void play(Player player) {
 		System.out.println("Play method started");
-		GameWindow gameWindow = new GameWindow(player);
-		gameWindow.setBorder((new Border.Invisible()));
-		
-		Main.gui.showWindow(gameWindow, GUIScreen.Position.FULL_SCREEN);
+		do {
 
-		/* VANHA PELIMOOTTORI ON TÄSSÄ. 
+			GameWindow gameWindow = new GameWindow(player);
+			gameWindow.setBorder((new Border.Invisible()));
+
+			Main.gui.showWindow(gameWindow, GUIScreen.Position.FULL_SCREEN);
+
+			/* VANHA PELIMOOTTORI ON TÄSSÄ. 
 		System.out.println("KelaSim");
 		while (quit == false) { // Tässä loopissa pelaaminen tapahtuu. 
 			System.out.println("Day "+newCalendar.getDateCounter());
@@ -48,7 +52,8 @@ public class GameEngine {
 			}
 		}
 		System.out.println("Exit gameloop");
-		 */
+			 */
+		} while (player.keepPlaying = true);
 		System.out.println("Exit GameEngine");
 	}
 

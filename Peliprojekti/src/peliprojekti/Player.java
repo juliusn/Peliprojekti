@@ -9,15 +9,25 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Player implements Serializable {
+	public boolean keepPlaying;
 	private double money = 0;
 	private double health = 0;
 	private double sanity = 0;
+	private int age = 0;
+	public Calendar calendar;
 	Player player = null;
 
 	public Player createNewPlayer() {
-		money = 10;
+		keepPlaying = true;
+		money = 100;
 		health = 100;
 		sanity = 100;
+		age = 0;
+		System.out.println("New player initialized:");
+		System.out.println("Money: "+money);
+		System.out.println("Health: "+health);
+		System.out.println("Sanity: "+sanity);
+		System.out.println("Age: "+age);
 		return player;
 	}
 
@@ -58,12 +68,23 @@ public class Player implements Serializable {
 	public double getPlayerSanity() {
 		return this.sanity;
 	}
+	public double getPlayerAge() {
+		return this.age;
+	}
 	public void changePlayerMoney(int i) {
 		this.money = this.money + i;
+		System.out.println(this.player.toString()+" money changed to "+this.money);
 	}
-
 	public void changePlayerHealth(int i) {
 		this.health = this.health + i;
-
+		System.out.println(this.player.toString()+" health changed to "+this.health);
+	}
+	public void changePlayerSanity(int i) {
+		this.sanity = this.sanity+ i;
+		System.out.println(this.player.toString()+" sanity changed to "+this.sanity);
+	}
+	public void changePlayerAge(int i) {
+		this.age = this.age + i;
+		System.out.println(this.player.toString()+" age changed to "+this.age);
 	}
 }
