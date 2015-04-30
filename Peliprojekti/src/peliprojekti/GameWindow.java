@@ -57,8 +57,8 @@ public class GameWindow extends Window {
 		infoPanelInfo1.addComponent(ageLabel);
 		infoPanelInfo2.addComponent(new Label("Postilaatikko"));
 		infoPanelInfo3.addComponent(new Label("Muuta"));
-
-
+		
+		
 		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
 		actionPanel.addComponent(new Button("Nuku", new Action() {
 			public void doAction() {
