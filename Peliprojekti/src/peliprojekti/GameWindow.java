@@ -108,9 +108,9 @@ public class GameWindow extends Window {
 
 		
 		addComponent(infoPanel);
-		//addComponent(actionPanel);
-		Menu actionMenu = new Menu(actionPanel);
-		gameEngine.gameGui.showWindow(actionMenu);
+		addComponent(actionPanel);
+		//Menu actionMenu = new Menu(actionPanel);
+		//gameEngine.gameGui.showWindow(actionMenu);
 		addComponent(playerPanel);
 		
 		int testCounter = 0;
