@@ -1,12 +1,9 @@
 package peliprojekti;
 
 import com.googlecode.lanterna.gui.Action;
-import com.googlecode.lanterna.gui.Border;
 import com.googlecode.lanterna.gui.GUIScreen;
 import com.googlecode.lanterna.gui.Window;
 import com.googlecode.lanterna.gui.component.Button;
-import com.googlecode.lanterna.gui.component.Label;
-import com.googlecode.lanterna.gui.component.Panel;
 
 public class MainMenu extends Window {
 
@@ -14,7 +11,6 @@ public class MainMenu extends Window {
 		super ("Päävalikko");
 		addComponent((new Button("Uusi Peli", new Action(){
 			public void doAction() {
-				close();
 				Player player = new Player(); // Luodaan uusi pelaaja
 				GameEngine gameEngine = new GameEngine(player); // luodaan pelimoottori uudelle pelaajalle
 				gameEngine.play(player);
@@ -30,7 +26,7 @@ public class MainMenu extends Window {
 		addComponent((new Button("Ohjeet", new Action(){
 			public void doAction() {
 				InstructionsWindow instructionsWindow = new InstructionsWindow();
-				Main.gui.showWindow(instructionsWindow, GUIScreen.Position.OVERLAPPING);
+				Main.startupGui.showWindow(instructionsWindow, GUIScreen.Position.CENTER);
 			}
 		})));
 		addComponent((new Button("Lopeta", new Action(){

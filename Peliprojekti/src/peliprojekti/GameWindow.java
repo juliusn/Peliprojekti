@@ -2,6 +2,8 @@ package peliprojekti;
 
 import com.googlecode.lanterna.gui.Action;
 import com.googlecode.lanterna.gui.Border;
+import com.googlecode.lanterna.gui.Component;
+import com.googlecode.lanterna.gui.GUIScreen;
 import com.googlecode.lanterna.gui.Component.Alignment;
 import com.googlecode.lanterna.gui.Window;
 import com.googlecode.lanterna.gui.component.ActionListBox;
@@ -17,38 +19,52 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class GameWindow extends Window {
+	/* Yläreunan infopaneelit */
+	Panel infoPanel = new Panel(Panel.Orientation.HORISONTAL);
+	Panel infoPanelInfo1 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel infoPanelInfo2 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel infoPanelInfo3 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 
+	/* Pelaajan toimintopaneelit */
+	Panel actionPanel = new Panel(Panel.Orientation.VERTICAL);
 
-	public GameWindow(final Player player) {
+	/* Pelaajan tietopaneelit */
+	Panel playerPanel = new Panel(Panel.Orientation.HORISONTAL);
+	Panel playerPanelInfo1 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel playerPanelInfo2 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel playerPanelInfo3 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+
+	Label ageLabel = new Label("");
+	Label healthLabel = new Label("");
+	Label sanityLabel = new Label("");
+	Label moneyLabel = new Label("");
+
+	public GameWindow() {
 		super("KelaSim");
+		actionPanel.setAlignment(Component.Alignment.CENTER);
+		System.out.println("New GameWindow "+this.toString()+" created");
+	}
 
-		Panel infoPanel = new Panel(Panel.Orientation.HORISONTAL);
-		Panel infoPanelInfo1 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-		Panel infoPanelInfo2 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-		Panel infoPanelInfo3 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-		Panel actionPanel = new Panel(Panel.Orientation.VERTICAL);
-		actionPanel.setAlignment(Alignment.CENTER);
-		Panel playerPanel = new Panel(Panel.Orientation.HORISONTAL);
-		playerPanel.setAlignment(Alignment.BOTTON_CENTER);
-		Panel playerPanelInfo1 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-		Panel playerPanelInfo2 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-		Panel playerPanelInfo3 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	public GameWindow(final Player player, final GameEngine gameEngine) {
+		super("KelaSim");
+		GUIScreen gui = this.getOwner();
+		/* Määritellään pelaajan tietopaneelit pelaajan tietojen mukaisiksi */
+		ageLabel.setText("Päivä: "+Integer.toString(player.getPlayerAge()));
+		healthLabel.setText("Hyvinvointi: "+Integer.toString(player.getPlayerHealth()));
+		sanityLabel.setText("Mielenterveys: "+Integer.toString(player.getPlayerSanity()));
+		moneyLabel.setText("Raha: "+Integer.toString(player.getPlayerMoney()));
 
-		infoPanelInfo1.addComponent(new TextArea("Päivä "
-				+player.getPlayerAge()
-				));
+		infoPanelInfo1.addComponent(ageLabel);
 		infoPanelInfo2.addComponent(new Label("Postilaatikko"));
 		infoPanelInfo3.addComponent(new Label("Muuta"));
-
 
 
 		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
 		actionPanel.addComponent(new Button("Nuku", new Action() {
 			public void doAction() {
-				player.keepPlaying = true;
 				player.changePlayerAge(1);
-				close();
-				//Tähän refresh!
+				ageLabel.setText(Integer.toString(player.getPlayerAge()));
+				System.out.println("player.getPlayerAge: "+player.getPlayerAge());
 			}
 		}
 				));
@@ -56,7 +72,7 @@ public class GameWindow extends Window {
 			//@Override
 			public void doAction() {
 				ApplicationMenu applicationMenu = new ApplicationMenu();
-				Main.gui.showWindow(applicationMenu);
+				gameEngine.gameGui.showWindow(applicationMenu);
 			}
 		}));
 		actionPanel.addComponent(new Button("Tallenna", new Action() {
@@ -68,15 +84,15 @@ public class GameWindow extends Window {
 		actionPanel.addComponent(new Button("Lopeta", new Action() {
 			//@Override
 			public void doAction() {
-				player.keepPlaying = false;
+				gameEngine.keepPlaying = false;
 				close();
 			}
 		}));
 		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
 
-		playerPanelInfo1.addComponent(new Label("Raha: "+player.getPlayerMoney()+"€"));
-		playerPanelInfo2.addComponent(new Label("Hyvinvointi: "+player.getPlayerHealth()));
-		playerPanelInfo3.addComponent(new Label("Mielenterveys: "+player.getPlayerSanity()));
+		playerPanelInfo1.addComponent(moneyLabel);
+		playerPanelInfo2.addComponent(healthLabel);
+		playerPanelInfo3.addComponent(sanityLabel);
 
 		infoPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
 		infoPanel.addComponent(infoPanelInfo1);
@@ -90,13 +106,16 @@ public class GameWindow extends Window {
 		playerPanel.addComponent(playerPanelInfo3);
 		playerPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
 
-
+		
 		addComponent(infoPanel);
-		addComponent(actionPanel);
+		//addComponent(actionPanel);
+		Menu actionMenu = new Menu(actionPanel);
+		gameEngine.gameGui.showWindow(actionMenu);
 		addComponent(playerPanel);
+		
 		int testCounter = 0;
-		System.out.println("Testcounter: "+testCounter);
 		testCounter++;
+		System.out.println("GameWindow completed "+testCounter+" times");
 	}
 
 

@@ -6,55 +6,30 @@ import com.googlecode.lanterna.gui.Border;
 import com.googlecode.lanterna.gui.GUIScreen;
 
 public class GameEngine implements Serializable {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public GUIScreen gameGui = new GUIScreen(Main.screen);
+	public boolean keepPlaying = true;
 	public GameEngine(Player player) {
-		System.out.println("GameEngine created with "+player.toString());
+		System.out.println("GameEngine "+this.toString()+" created with "+player.toString());
 	}
 
 	public void play(Player player) {
 		System.out.println("Play method started");
-		do {
-
-			GameWindow gameWindow = new GameWindow(player);
-			gameWindow.setBorder((new Border.Invisible()));
-
-			Main.gui.showWindow(gameWindow, GUIScreen.Position.FULL_SCREEN);
-
-			/* VANHA PELIMOOTTORI ON TÄSSÄ. 
-		System.out.println("KelaSim");
-		while (quit == false) { // Tässä loopissa pelaaminen tapahtuu. 
-			System.out.println("Day "+newCalendar.getDateCounter());
-			System.out.println("Pelivalikko: q/save/buy food/stats/skip");
-			String command = newCommandInterpreter.consoleCommand();
-			System.out.println("Valitsit: " + command);
-			switch (command) {
-			case "q":
-				quit = true;
-				break;
-			case "stats":
-				System.out.println("Raha: "+player.getPlayerMoney()+", terveys: "+player.getPlayerHealth());
-				break;
-			case "skip":
-				newCalendar.dateCounter = newCalendar.dateCounter + 1;
-				break;
-			case "save": // Tallentaa pelin
-				player.savePlayer();
-				break;	
-			case "buy food":
-				newGrocery.buyFood(this.player);
-				break;
-			case "fill application":
-				newApplication.fillApplication(player);
-				break;
-			default:
-				System.out.println("Mitään ei tapahdu.");
-				break;
-			}
+		GameWindow gameWindow = new GameWindow(player, this); // Kutsu peli-ikkunaa pelaajalla
+		gameWindow.setBorder((new Border.Invisible())); // Peli-ikkunan asetukset
+		while (keepPlaying) {
+			gameGui.showWindow(gameWindow, GUIScreen.Position.FULL_SCREEN); // Näytä peli-ikkuna
 		}
-		System.out.println("Exit gameloop");
-			 */
-		} while (player.keepPlaying = true);
-		System.out.println("Exit GameEngine");
+		System.out.println("Exit GameEngine "+this.toString());
+	}
+	public boolean getKeepPlaying() {
+		return this.keepPlaying;
+	}
+	public void stopPlaying() {
+		this.keepPlaying = false;
 	}
 
 }

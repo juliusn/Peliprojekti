@@ -1,7 +1,6 @@
 package peliprojekti;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,26 +8,28 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Player implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public boolean keepPlaying;
-	private double money = 0;
-	private double health = 0;
-	private double sanity = 0;
-	private int age = 0;
+	private int money = 0;
+	private int health = 0;
+	private int sanity = 0;
+	public int age = 0;
 	public Calendar calendar;
 	Player player = null;
 
-	public Player createNewPlayer() {
-		keepPlaying = true;
+	public Player() {
 		money = 100;
 		health = 100;
 		sanity = 100;
 		age = 0;
-		System.out.println("New player initialized:");
+		System.out.println("New player "+this.toString()+" initialized:");
 		System.out.println("Money: "+money);
 		System.out.println("Health: "+health);
 		System.out.println("Sanity: "+sanity);
 		System.out.println("Age: "+age);
-		return player;
 	}
 
 	public Player openPlayer() { // tallennetun pelin avaaminen, beta. 
@@ -47,6 +48,7 @@ public class Player implements Serializable {
 		}
 		return player;
 	}
+	
 	public void savePlayer() {
 		try {
 			FileOutputStream fileOut = new FileOutputStream("/tmp/player.ser");
@@ -59,16 +61,16 @@ public class Player implements Serializable {
 			i.printStackTrace();
 		}
 	}
-	public double getPlayerMoney() {
+	public int getPlayerMoney() {
 		return this.money;
 	}
-	public double getPlayerHealth() {
+	public int getPlayerHealth() {
 		return this.health;
 	}
-	public double getPlayerSanity() {
+	public int getPlayerSanity() {
 		return this.sanity;
 	}
-	public double getPlayerAge() {
+	public int getPlayerAge() {
 		return this.age;
 	}
 	public void changePlayerMoney(int i) {
@@ -85,6 +87,9 @@ public class Player implements Serializable {
 	}
 	public void changePlayerAge(int i) {
 		this.age = this.age + i;
-		System.out.println(this.player.toString()+" age changed to "+this.age);
+		//System.out.println(this.player.toString()+" age changed to "+this.age);
+	}
+	public void stopPlaying() {
+		this.keepPlaying = false;
 	}
 }
