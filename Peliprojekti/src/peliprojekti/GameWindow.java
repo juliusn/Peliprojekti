@@ -75,6 +75,13 @@ public class GameWindow extends Window {
 				gameEngine.gameGui.showWindow(applicationMenu);
 			}
 		}));
+		actionPanel.addComponent(new Button("Osta ruokaa", new Action() {
+			//@Override
+			public void doAction() {
+				Grocery newGrocery = new Grocery();
+				newGrocery.buyFood();
+			}
+		}));
 		actionPanel.addComponent(new Button("Tallenna", new Action() {
 			//@Override
 			public void doAction() {
