@@ -94,6 +94,17 @@ public class GameWindow extends Window {
 				gameEngine.gameGui.showWindow(applicationMenu);
 			}
 		}));
+		actionPanel.addComponent(new Button("Osta ruokaa", new Action() {
+			//@Override
+			public void doAction() {
+				player.changePlayerMoney(-10);
+				moneyLabel.setText(Integer.toString(player.getPlayerMoney()));
+				System.out.println("player.getPlayerMoney: "+player.getPlayerMoney());
+				player.changePlayerHealth(10);
+				healthLabel.setText(Integer.toString(player.getPlayerHealth()));
+				System.out.println("player.getPlayerHealth: "+player.getPlayerHealth());
+			}
+		}));
 		actionPanel.addComponent(new Button("Tallenna", new Action() {
 			//@Override
 			public void doAction() {
