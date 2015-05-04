@@ -1,14 +1,50 @@
 package peliprojekti;
 
-public class Grocery {
+import com.googlecode.lanterna.gui.Action;
+import com.googlecode.lanterna.gui.Border;
+import com.googlecode.lanterna.gui.Window;
+import com.googlecode.lanterna.gui.component.Button;
+import com.googlecode.lanterna.gui.component.Label;
+import com.googlecode.lanterna.gui.component.Panel;
+import com.googlecode.lanterna.gui.component.TextBox;
+import com.googlecode.lanterna.gui.dialog.MessageBox;
 
-	public void buyFood(Player player) {
-		if (player.getPlayerMoney() >= 10) { // Katsotaan onko pelaajalla tarpeeksi rahaa
-			player.changePlayerMoney(-10);
-			player.changePlayerHealth(10);
-			System.out.println("Raha: -10, terveys: +10");
-		} else {
-			System.out.println("Ei tarpeeksi rahaa!");
-		}	
+public class Grocery extends Window {
+
+	public Grocery(String title, final Player player, final GameWindow gameWindow) {
+		super(title);
+		
+		final TextBox amountBox = new TextBox("", 30);
+		Button checkoutButton = new Button("OK", new Action() {
+			public void doAction() {
+				int value = 0;
+
+				try {
+					value = Integer.parseInt(amountBox.getText());
+					if (player.getPlayerMoney() >= value) {
+						player.changePlayerMoney(-value);
+						player.changePlayerFood(value);
+						gameWindow.refresh(player);
+						MessageBox.showMessageBox(getOwner(), "", "Ostit "+Integer.toString(value)+" eurolla ruokaa.");
+					} else {
+						MessageBox.showMessageBox(getOwner(), "", "Rahasi ei riitä.");
+					}
+				} catch (NumberFormatException e) {
+					MessageBox.showMessageBox(getOwner(), "", "Syötä kokonaisluku.");
+					e.printStackTrace();
+				}
+			}
+		}
+				);
+		Panel buyPanel = new Panel(new Border.Invisible(), Panel.Orientation.HORISONTAL);
+		buyPanel.addComponent(new Label("Syötä summa:"));
+		buyPanel.addComponent(amountBox);
+		buyPanel.addComponent(checkoutButton);
+		addComponent(buyPanel);
+		addComponent((new Button("Sulje", new Action(){
+			public void doAction() {
+				close();
+			}
+		})));
 	}
 }

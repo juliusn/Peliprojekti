@@ -38,6 +38,7 @@ public class GameWindow extends Window {
 	Label healthLabel = new Label("");
 	Label sanityLabel = new Label("");
 	Label hungerLabel = new Label("");
+	Label foodLabel = new Label("");
 	Label moneyLabel = new Label("");
 
 	public GameWindow() {
@@ -48,12 +49,13 @@ public class GameWindow extends Window {
 
 	public GameWindow(final Player player, final GameEngine gameEngine) {
 		super("KelaSim");
+		final GameWindow gameWindow = this;
 		System.out.println(gameEngine.gameGui.getScreen());
 		refresh(player);
 		/* Määritellään pelaajan tietopaneelit pelaajan tietojen mukaisiksi */
 		infoPanelInfo1.addComponent(ageLabel);
 		infoPanelInfo2.addComponent(new Label("Postilaatikko"));
-		infoPanelInfo3.addComponent(new Label("Muuta"));
+		infoPanelInfo3.addComponent(foodLabel);
 
 
 		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
@@ -65,26 +67,34 @@ public class GameWindow extends Window {
 				refresh(player);
 				System.out.println("player.getPlayerAge: "+player.getPlayerAge());
 			}
-		}
-				));
+		}));
 		actionPanel.addComponent(new Button("Syö", new Action() {
 
 			public void doAction() {
-				if (player.getPlayerHunger() >= 3) {
-
-
-					if (player.getPlayerMoney() >= 5) {
-						player.changePlayerMoney(-5);
-						player.changePlayerHealth(2);
-						player.changePlayerHunger(-3);
-						refresh(player);
+				if (player.getPlayerHunger() > 0) {
+					if (player.getPlayerFood() > 0) {
+						player.changePlayerFood(-1);
+						player.changePlayerHunger(-1);
 					} else {
-						MessageBox.showMessageBox(getOwner(), "Virhe:", "Rahasi ei riitä syömiseen.");
-					}	
-
+						MessageBox.showMessageBox(getOwner(), "", "Sinulla ei ole ruokaa.");
+					}
 				} else {
-					MessageBox.showMessageBox(getOwner(), "Virhe:", "Sinulla ei ole nälkä.");
+					MessageBox.showMessageBox(getOwner(), "", "Sinulla ei ole nälkä.");
 				}
+				refresh(player);
+			}
+		}));
+		actionPanel.addComponent(new Button("Osta Ruokaa", new Action() {
+			//@Override
+			public void doAction() {
+				Grocery newGrocery = new Grocery("Ruokakauppa", player, gameWindow);
+				gameEngine.gameGui.showWindow(newGrocery);
+				/*player.changePlayerMoney(-10);
+				moneyLabel.setText(Integer.toString(player.getPlayerMoney()));
+				System.out.println("player.getPlayerMoney: "+player.getPlayerMoney());
+				player.changePlayerHealth(10);
+				healthLabel.setText(Integer.toString(player.getPlayerHealth()));
+				System.out.println("player.getPlayerHealth: "+player.getPlayerHealth());*/
 			}
 		}));
 		actionPanel.addComponent(new Button("Tee Hakemus", new Action() {
@@ -92,17 +102,6 @@ public class GameWindow extends Window {
 			public void doAction() {
 				ApplicationMenu applicationMenu = new ApplicationMenu();
 				gameEngine.gameGui.showWindow(applicationMenu);
-			}
-		}));
-		actionPanel.addComponent(new Button("Osta ruokaa", new Action() {
-			//@Override
-			public void doAction() {
-				player.changePlayerMoney(-10);
-				moneyLabel.setText(Integer.toString(player.getPlayerMoney()));
-				System.out.println("player.getPlayerMoney: "+player.getPlayerMoney());
-				player.changePlayerHealth(10);
-				healthLabel.setText(Integer.toString(player.getPlayerHealth()));
-				System.out.println("player.getPlayerHealth: "+player.getPlayerHealth());
 			}
 		}));
 		actionPanel.addComponent(new Button("Tallenna", new Action() {
@@ -157,7 +156,7 @@ public class GameWindow extends Window {
 		if (player.getPlayerSanity() == 10) {
 			MessageBox.showMessageBox(getOwner(), ":-(:", "Sekosit.");
 		}
-		
+
 		int testCounter = 0;
 		testCounter++;
 		System.out.println("GameWindow completed "+testCounter+" times");
@@ -168,7 +167,8 @@ public class GameWindow extends Window {
 		healthLabel.setText("Hyvinvointi: "+Integer.toString(player.getPlayerHealth()));
 		sanityLabel.setText("Mielenterveys: "+Integer.toString(player.getPlayerSanity()));
 		hungerLabel.setText("Nälkä: "+Integer.toString(player.getPlayerHunger()));
-		moneyLabel.setText("Raha: "+Integer.toString(player.getPlayerMoney()));
+		foodLabel.setText("Ruokaa: "+Integer.toString(player.getPlayerFood()));
+		moneyLabel.setText("Rahaa: "+Integer.toString(player.getPlayerMoney()));
 	}
 
 	public void save(Player player) {

@@ -23,7 +23,7 @@ public class MainMenu extends Window {
 				// newGameEngine.gameLoop(); // kutsutaan pelimoottorin pelilooppia (vanha)
 			}
 		})));
-		addComponent((new Button("Jatka Peliä", new Action(){
+		addComponent((new Button("Jatka Tallennettua Peliä", new Action(){
 			public void doAction() {
 				try {
 					FileInputStream in = new FileInputStream("player.ser");

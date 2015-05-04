@@ -12,6 +12,7 @@ public class Player implements Serializable {
 	private int health = 0;
 	private int sanity = 0;
 	private int hunger = 0;
+	private int food = 0;
 	private int age = 0;
 	Player player = null;
 
@@ -20,6 +21,7 @@ public class Player implements Serializable {
 		health = 100;
 		sanity = 100;
 		hunger = 0;
+		food = 0;
 		age = 0;
 		System.out.println("New player "+this.toString()+" initialized:");
 		System.out.println("Money: "+money);
@@ -39,6 +41,9 @@ public class Player implements Serializable {
 	}
 	public int getPlayerHunger() {
 		return this.hunger;
+	}
+	public int getPlayerFood() {
+		return this.food;
 	}
 	public int getPlayerAge() {
 		return this.age;
@@ -74,6 +79,13 @@ public class Player implements Serializable {
 			this.keepPlaying = false;
 		} else {
 			this.hunger = this.hunger + i;
+		}
+	}
+	public void changePlayerFood(int i) {
+		if (this.food+i <= 0) {
+			this.food = 0;
+		} else {
+			this.food= this.food + i;
 		}
 	}
 	public void changePlayerAge(int i) {
