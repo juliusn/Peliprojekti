@@ -1,9 +1,15 @@
 package peliprojekti;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import com.googlecode.lanterna.gui.Action;
 import com.googlecode.lanterna.gui.GUIScreen;
 import com.googlecode.lanterna.gui.Window;
 import com.googlecode.lanterna.gui.component.Button;
+import com.googlecode.lanterna.gui.dialog.MessageBox;
 
 public class MainMenu extends Window {
 
@@ -17,9 +23,29 @@ public class MainMenu extends Window {
 				// newGameEngine.gameLoop(); // kutsutaan pelimoottorin pelilooppia (vanha)
 			}
 		})));
-		addComponent((new Button("Avaa Peli", new Action(){
+		addComponent((new Button("Jatka Peliä", new Action(){
 			public void doAction() {
-				//Toiminto
+				try {
+					FileInputStream in = new FileInputStream("player.ser");
+					ObjectInputStream obin = new ObjectInputStream(in);
+					Player player = (Player)obin.readObject();
+					obin.close();
+					GameEngine gameEngine = new GameEngine(player);
+					gameEngine.play(player);
+				} catch (FileNotFoundException e) {
+					System.out.println("Could not open dogsmain.ser");
+					e.printStackTrace();
+					MessageBox.showMessageBox(getOwner(), "Virhe:", "Peliä ei voitu avata.");
+				} catch (IOException e) {
+					System.out.println("Error reading file");
+					MessageBox.showMessageBox(getOwner(), "Virhe:", "Peliä ei voitu avata.");
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					System.out.println("Error reading object");
+					MessageBox.showMessageBox(getOwner(), "Virhe:", "Peliä ei voitu avata.");
+					e.printStackTrace();
+				}
+
 			}
 
 		})));

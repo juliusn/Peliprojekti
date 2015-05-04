@@ -18,6 +18,7 @@ public class GameEngine implements Serializable {
 
 	public void play(Player player) {
 		System.out.println("Play method started");
+		System.out.println("in screen "+this.gameGui.getScreen());
 		GameWindow gameWindow = new GameWindow(player, this); // Kutsu peli-ikkunaa pelaajalla
 		gameWindow.setBorder((new Border.Invisible())); // Peli-ikkunan asetukset
 		while (keepPlaying) {

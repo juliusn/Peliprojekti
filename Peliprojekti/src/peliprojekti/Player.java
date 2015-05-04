@@ -1,10 +1,5 @@
 package peliprojekti;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Player implements Serializable {
@@ -16,14 +11,15 @@ public class Player implements Serializable {
 	private int money = 0;
 	private int health = 0;
 	private int sanity = 0;
-	public int age = 0;
-	public Calendar calendar;
+	private int hunger = 0;
+	private int age = 0;
 	Player player = null;
 
 	public Player() {
 		money = 100;
 		health = 100;
 		sanity = 100;
+		hunger = 0;
 		age = 0;
 		System.out.println("New player "+this.toString()+" initialized:");
 		System.out.println("Money: "+money);
@@ -32,35 +28,6 @@ public class Player implements Serializable {
 		System.out.println("Age: "+age);
 	}
 
-	public Player openPlayer() { // tallennetun pelin avaaminen, beta. 
-		try {
-			FileInputStream fileIn = new FileInputStream("/tmp/player.ser");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			player = (Player) in.readObject();
-			in.close();
-		} catch(IOException i) {
-			i.printStackTrace();
-			return player;
-		} catch(ClassNotFoundException c) {
-			System.out.println("Player class not found");
-			c.printStackTrace();
-			return player;
-		}
-		return player;
-	}
-	
-	public void savePlayer() {
-		try {
-			FileOutputStream fileOut = new FileOutputStream("/tmp/player.ser");
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(player);
-			out.close();
-			fileOut.close();
-			System.out.printf("Pelaaja tallennettu /tmp/player.ser");
-		} catch(IOException i) {
-			i.printStackTrace();
-		}
-	}
 	public int getPlayerMoney() {
 		return this.money;
 	}
@@ -70,26 +37,50 @@ public class Player implements Serializable {
 	public int getPlayerSanity() {
 		return this.sanity;
 	}
+	public int getPlayerHunger() {
+		return this.hunger;
+	}
 	public int getPlayerAge() {
 		return this.age;
 	}
 	public void changePlayerMoney(int i) {
 		this.money = this.money + i;
-		System.out.println(this.player.toString()+" money changed to "+this.money);
 	}
 	public void changePlayerHealth(int i) {
-		this.health = this.health + i;
-		System.out.println(this.player.toString()+" health changed to "+this.health);
+		if (this.health+i <= 0) {
+			this.health = 0;
+			this.keepPlaying = false;
+		} else if (this.health+i >= 100) {
+			this.health = 100;
+		} else {
+			this.health = this.health + i;
+		}
 	}
 	public void changePlayerSanity(int i) {
-		this.sanity = this.sanity+ i;
-		System.out.println(this.player.toString()+" sanity changed to "+this.sanity);
+		if (this.sanity+i <= 0) {
+			this.sanity = 0;
+			this.keepPlaying = false;
+		} else if (this.sanity+i >= 100) {
+			this.sanity= 100;
+		} else {
+			this.sanity= this.sanity + i;
+		}
+	}
+	public void changePlayerHunger(int i) {
+		if (this.hunger+i <= 0) {
+			this.hunger = 0;
+		} else if (this.hunger+i >= 100) {
+			this.hunger = 100;
+			this.keepPlaying = false;
+		} else {
+			this.hunger = this.hunger + i;
+		}
 	}
 	public void changePlayerAge(int i) {
 		this.age = this.age + i;
-		//System.out.println(this.player.toString()+" age changed to "+this.age);
 	}
 	public void stopPlaying() {
 		this.keepPlaying = false;
 	}
+
 }
