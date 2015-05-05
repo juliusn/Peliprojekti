@@ -18,9 +18,9 @@ public class MainMenu extends Window {
 		addComponent((new Button("Uusi Peli", new Action(){
 			public void doAction() {
 				Player player = new Player(); // Luodaan uusi pelaaja
+				MessageBox.showMessageBox(getOwner(), "Uuden pelaajan tiedot:", "Nimi: "+player.getPlayerForeName()+" "+player.getPlayerSurName()+".\n"+"Sosiaaliturvatunnus: "+player.getPlayerSsn());
 				GameEngine gameEngine = new GameEngine(player); // luodaan pelimoottori uudelle pelaajalle
 				gameEngine.play(player);
-				// newGameEngine.gameLoop(); // kutsutaan pelimoottorin pelilooppia (vanha)
 			}
 		})));
 		addComponent((new Button("Jatka Tallennettua Peliä", new Action(){
@@ -33,7 +33,6 @@ public class MainMenu extends Window {
 					GameEngine gameEngine = new GameEngine(player);
 					gameEngine.play(player);
 				} catch (FileNotFoundException e) {
-					System.out.println("Could not open dogsmain.ser");
 					e.printStackTrace();
 					MessageBox.showMessageBox(getOwner(), "Virhe:", "Peliä ei voitu avata.");
 				} catch (IOException e) {
@@ -45,9 +44,7 @@ public class MainMenu extends Window {
 					MessageBox.showMessageBox(getOwner(), "Virhe:", "Peliä ei voitu avata.");
 					e.printStackTrace();
 				}
-
 			}
-
 		})));
 		addComponent((new Button("Ohjeet", new Action(){
 			public void doAction() {
@@ -59,7 +56,6 @@ public class MainMenu extends Window {
 			public void doAction() {
 				close();
 			}
-
 		})));
 	}
 }

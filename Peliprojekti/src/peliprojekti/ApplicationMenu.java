@@ -7,23 +7,30 @@ import com.googlecode.lanterna.gui.component.Button;
 
 public class ApplicationMenu extends Window {
 
-	public ApplicationMenu() {
+	public ApplicationMenu(final Player player, final GameWindow gameWindow) {
 		super("Valitse Hakemus");
 		addComponent((new Button("Työttömyyspäivärahahakemus", new Action(){
 			public void doAction() {
-				Application tprApplication = new TPRApplication("Työttömyyspäivärahahakemus");
-				tprApplication.fill();
-				getOwner().showWindow(tprApplication, GUIScreen.Position.CENTER);
+				ApplicationWindow application = new ApplicationWindow("Työttömyyspäivärahahakemus", player);
+				application.fill(player, gameWindow);
+				close();
+				getOwner().showWindow(application, GUIScreen.Position.CENTER);
 			}
 		})));
 		addComponent((new Button("Asumistukihakemus", new Action(){
 			public void doAction() {
-
+				ApplicationWindow application = new ApplicationWindow("Asumistukihakemus", player);
+				application.fill(player, gameWindow);
+				close();
+				getOwner().showWindow(application, GUIScreen.Position.CENTER);
 			}
 		})));
 		addComponent((new Button("Toimeentulotukihakemus", new Action(){
 			public void doAction() {
-
+				ApplicationWindow application = new ApplicationWindow("Toimeentulotukihakemus", player);
+				application.fill(player, gameWindow);
+				close();
+				getOwner().showWindow(application, GUIScreen.Position.CENTER);
 			}
 		})));
 		addComponent((new Button("Sulje", new Action(){

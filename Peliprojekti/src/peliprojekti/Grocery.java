@@ -14,8 +14,8 @@ public class Grocery extends Window {
 	public Grocery(String title, final Player player, final GameWindow gameWindow) {
 		super(title);
 		
-		final TextBox amountBox = new TextBox("", 30);
-		Button checkoutButton = new Button("OK", new Action() {
+		final TextBox amountBox = new TextBox("", 10);
+		Button checkoutButton = new Button("Osta", new Action() {
 			public void doAction() {
 				int value = 0;
 
@@ -25,7 +25,8 @@ public class Grocery extends Window {
 						player.changePlayerMoney(-value);
 						player.changePlayerFood(value);
 						gameWindow.refresh(player);
-						MessageBox.showMessageBox(getOwner(), "", "Ostit "+Integer.toString(value)+" eurolla ruokaa.");
+						MessageBox.showMessageBox(getOwner(), "", "Ostit "+Integer.toString(value)+" markalla ruokaa.");
+						close();
 					} else {
 						MessageBox.showMessageBox(getOwner(), "", "Rahasi ei riitä.");
 					}
@@ -39,8 +40,9 @@ public class Grocery extends Window {
 		Panel buyPanel = new Panel(new Border.Invisible(), Panel.Orientation.HORISONTAL);
 		buyPanel.addComponent(new Label("Syötä summa:"));
 		buyPanel.addComponent(amountBox);
-		buyPanel.addComponent(checkoutButton);
+		buyPanel.addComponent(new Label("mk"));
 		addComponent(buyPanel);
+		addComponent(checkoutButton);
 		addComponent((new Button("Sulje", new Action(){
 			public void doAction() {
 				close();

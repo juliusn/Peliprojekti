@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import com.googlecode.lanterna.gui.Action;
 import com.googlecode.lanterna.gui.Border;
 import com.googlecode.lanterna.gui.Component;
+import com.googlecode.lanterna.gui.GUIScreen.Position;
 import com.googlecode.lanterna.gui.Window;
 import com.googlecode.lanterna.gui.component.Button;
 import com.googlecode.lanterna.gui.component.EmptySpace;
@@ -18,28 +19,33 @@ import com.googlecode.lanterna.gui.layout.LinearLayout;
 
 public class GameWindow extends Window {
 	/* Yläreuna: pelin infopaneelit */
+	Panel kelaPanel = new Panel(Panel.Orientation.HORISONTAL);
+	Panel applicationPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel allowancePanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	
 	Panel infoPanel = new Panel(Panel.Orientation.HORISONTAL);
-	Panel infoPanelInfo1 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-	Panel infoPanelInfo2 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-	Panel infoPanelInfo3 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel moneyPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel foodPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 
 	/* Keskelle: Pelaajan toimintopaneeli */
 	Panel actionPanel = new Panel(Panel.Orientation.VERTICAL);
 	Panel middleContainer = new Panel(Panel.Orientation.HORISONTAL);
 
-	/* Alareuna: pelaajan tietopaneelit */
+	/* Alareuna: pelaajan ominaisuudet */
 	Panel playerPanel = new Panel(Panel.Orientation.HORISONTAL);
-	Panel playerPanelInfo1 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-	Panel playerPanelInfo2 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-	Panel playerPanelInfo3 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-	Panel playerPanelInfo4 = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel agePanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel healthPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel hungerPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
+	Panel sanityPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 
 	Label ageLabel = new Label("");
-	Label healthLabel = new Label("");
-	Label sanityLabel = new Label("");
-	Label hungerLabel = new Label("");
-	Label foodLabel = new Label("");
+	Label applicationLabel = new Label("");
+	Label allowanceLabel = new Label("");
 	Label moneyLabel = new Label("");
+	Label foodLabel = new Label("");
+	Label healthLabel = new Label("");
+	Label hungerLabel = new Label("");
+	Label sanityLabel = new Label("");
 
 	public GameWindow() {
 		super("KelaSim");
@@ -48,14 +54,16 @@ public class GameWindow extends Window {
 	}
 
 	public GameWindow(final Player player, final GameEngine gameEngine) {
-		super("KelaSim");
+		super(player.getPlayerForeName()+" "+player.getPlayerSurName()+" ("+player.getPlayerSsn()+")");
 		final GameWindow gameWindow = this;
 		System.out.println(gameEngine.gameGui.getScreen());
 		refresh(player);
+		
 		/* Määritellään pelaajan tietopaneelit pelaajan tietojen mukaisiksi */
-		infoPanelInfo1.addComponent(ageLabel);
-		infoPanelInfo2.addComponent(new Label("Postilaatikko"));
-		infoPanelInfo3.addComponent(foodLabel);
+		applicationPanel.addComponent(applicationLabel);
+		allowancePanel.addComponent(allowanceLabel);
+		moneyPanel.addComponent(moneyLabel);
+		foodPanel.addComponent(foodLabel);
 
 
 		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
@@ -63,7 +71,14 @@ public class GameWindow extends Window {
 			public void doAction() {
 				player.changePlayerAge(1);
 				player.changePlayerHealth(1);
-				player.changePlayerHunger(2);
+				player.changePlayerHunger(4);
+				for (int i = 0; i < player.getApplications().size(); i++) {
+					player.getApplications().get(i).increaseDateCounter(1);
+				}
+				for (int i = 0; i < player.getAllowances().size(); i++) {
+					player.getAllowances().get(i).increaseDateCounter(1);
+				}
+
 				refresh(player);
 				System.out.println("player.getPlayerAge: "+player.getPlayerAge());
 			}
@@ -88,7 +103,7 @@ public class GameWindow extends Window {
 			//@Override
 			public void doAction() {
 				Grocery newGrocery = new Grocery("Ruokakauppa", player, gameWindow);
-				gameEngine.gameGui.showWindow(newGrocery);
+				gameEngine.gameGui.showWindow(newGrocery, Position.CENTER);
 				/*player.changePlayerMoney(-10);
 				moneyLabel.setText(Integer.toString(player.getPlayerMoney()));
 				System.out.println("player.getPlayerMoney: "+player.getPlayerMoney());
@@ -100,8 +115,18 @@ public class GameWindow extends Window {
 		actionPanel.addComponent(new Button("Tee Hakemus", new Action() {
 			//@Override
 			public void doAction() {
-				ApplicationMenu applicationMenu = new ApplicationMenu();
-				gameEngine.gameGui.showWindow(applicationMenu);
+				ApplicationMenu applicationMenu = new ApplicationMenu(player, gameWindow);
+				gameEngine.gameGui.showWindow(applicationMenu, Position.CENTER);
+			}
+		}));
+		actionPanel.addComponent(new Button("Käy Työnhakutoimistossa", new Action() {
+			//@Override
+			public void doAction() {
+				MessageBox.showMessageBox(getOwner(), "", "Olet ilmoittautunut työttömäksi työnhakijaksi. \n"
+						+"Juuri nyt ei ole töitä tarjolla.\n"
+						+"Tule kahden viikon kuluttua uudestaan.");
+				player.isApplicant = true;
+				refresh(player);
 			}
 		}));
 		actionPanel.addComponent(new Button("Tallenna", new Action() {
@@ -113,31 +138,36 @@ public class GameWindow extends Window {
 		actionPanel.addComponent(new Button("Lopeta", new Action() {
 			//@Override
 			public void doAction() {
-				gameEngine.keepPlaying = false;
+				player.keepPlaying = false;
 				close();
 			}
 		}));
 		actionPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
 
-		playerPanelInfo1.addComponent(moneyLabel);
-		playerPanelInfo2.addComponent(healthLabel);
-		playerPanelInfo3.addComponent(sanityLabel);
-		playerPanelInfo4.addComponent(hungerLabel);
+		agePanel.addComponent(ageLabel);
+		healthPanel.addComponent(healthLabel);
+		hungerPanel.addComponent(hungerLabel);
+		sanityPanel.addComponent(sanityLabel);
+
+		kelaPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
+		kelaPanel.addComponent(applicationPanel);
+		kelaPanel.addComponent(allowancePanel);
+		kelaPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
 
 		infoPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
-		infoPanel.addComponent(infoPanelInfo1);
-		infoPanel.addComponent(infoPanelInfo2);
-		infoPanel.addComponent(infoPanelInfo3);
+		infoPanel.addComponent(moneyPanel);
+		infoPanel.addComponent(foodPanel);
 		infoPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
 
 		playerPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
-		playerPanel.addComponent(playerPanelInfo1);
-		playerPanel.addComponent(playerPanelInfo2);
-		playerPanel.addComponent(playerPanelInfo3);
-		playerPanel.addComponent(playerPanelInfo4);
+		playerPanel.addComponent(agePanel);
+		playerPanel.addComponent(healthPanel);
+		playerPanel.addComponent(hungerPanel);
+		playerPanel.addComponent(sanityPanel);
 		playerPanel.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
 
 
+		addComponent(kelaPanel);
 		addComponent(infoPanel);
 		addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
 		middleContainer.addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_HORIZONTALLY);
@@ -147,15 +177,6 @@ public class GameWindow extends Window {
 		addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
 		addComponent(playerPanel);
 
-		if (player.getPlayerHealth() == 0) {
-			MessageBox.showMessageBox(getOwner(), ":-(:", "Kuolit.");
-		}
-		if (player.getPlayerHunger() == 10) {
-			MessageBox.showMessageBox(getOwner(), ":-(:", "Kuolit nälkään.");
-		}
-		if (player.getPlayerSanity() == 10) {
-			MessageBox.showMessageBox(getOwner(), ":-(:", "Sekosit.");
-		}
 
 		int testCounter = 0;
 		testCounter++;
@@ -163,12 +184,53 @@ public class GameWindow extends Window {
 	}
 
 	public void refresh(Player player) {
+		/* Hakemusten tila tarkistetaan */
+		for (int i = 0; i < player.getApplications().size(); i++) {
+			player.getApplications().get(i).check(player);
+			if (player.getApplications().get(i).isApproved()) {
+				MessageBox.showMessageBox(getOwner(), "", player.getApplications().get(i).getApplicationType()+" hyväksytty!");
+				player.removeApplication(player.getApplications().get(i).getApplicationType());
+			}
+		}
+		for (int i = 0; i < player.getAllowances().size(); i++) {
+			// Tukimaksut tähän
+		}
+		/* Pelinäkymän tiedot päivitetään */
 		ageLabel.setText("Päivä: "+Integer.toString(player.getPlayerAge()));
-		healthLabel.setText("Hyvinvointi: "+Integer.toString(player.getPlayerHealth()));
-		sanityLabel.setText("Mielenterveys: "+Integer.toString(player.getPlayerSanity()));
-		hungerLabel.setText("Nälkä: "+Integer.toString(player.getPlayerHunger()));
-		foodLabel.setText("Ruokaa: "+Integer.toString(player.getPlayerFood()));
-		moneyLabel.setText("Rahaa: "+Integer.toString(player.getPlayerMoney()));
+		if (player.getApplications().isEmpty()) {
+			applicationLabel.setText("Ei hakemuksia");
+		} else {
+			applicationLabel.setText("Hakemuksia käsittelyssä: "+player.getApplications().size()+" kpl");
+		}
+		if (player.getAllowances().isEmpty()) {
+			allowanceLabel.setText("Ei tukia");
+		} else {
+			allowanceLabel.setText("Hyväksyttyjä tukipäätöksiä: "+player.getAllowances().size()+" kpl");
+		}
+		
+		healthLabel.setText("Hyvinvointi: "+Integer.toString(player.getPlayerHealth())+"%");
+		sanityLabel.setText("Mielenterveys: "+Integer.toString(player.getPlayerSanity())+"%");
+		hungerLabel.setText("Nälkä: "+Integer.toString(player.getPlayerHunger())+"%");
+		foodLabel.setText("Ruokaa: "+Integer.toString(player.getPlayerFood())+" mk edestä");
+		moneyLabel.setText("Rahaa tilillä: "+Integer.toString(player.getPlayerMoney())+" markkaa");
+
+
+		/* Tarkistetaan, jatkuuko peli */
+		if (player.getPlayerHealth() == 0) {
+			MessageBox.showMessageBox(getOwner(), "Game Over:", "Kuolit.");
+			player.keepPlaying = false;
+			close();
+		}
+		if (player.getPlayerHunger() == 100) {
+			MessageBox.showMessageBox(getOwner(), "Game Over:", "Kuolit nälkään.");
+			player.keepPlaying = false;
+			close();
+		}
+		if (player.getPlayerSanity() == 0) {
+			MessageBox.showMessageBox(getOwner(), "Game Over:", "Sekosit.");
+			player.keepPlaying = false;
+			close();
+		}
 	}
 
 	public void save(Player player) {
@@ -188,6 +250,5 @@ public class GameWindow extends Window {
 			MessageBox.showMessageBox(getOwner(), "Virhe:", "Peliä ei voitu tallentaa.");
 		}
 	}
-
 }
 
