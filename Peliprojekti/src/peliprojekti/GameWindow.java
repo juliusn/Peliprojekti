@@ -22,7 +22,7 @@ public class GameWindow extends Window {
 	Panel kelaPanel = new Panel(Panel.Orientation.HORISONTAL);
 	Panel applicationPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 	Panel allowancePanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
-	
+
 	Panel infoPanel = new Panel(Panel.Orientation.HORISONTAL);
 	Panel moneyPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 	Panel foodPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
@@ -58,7 +58,7 @@ public class GameWindow extends Window {
 		final GameWindow gameWindow = this;
 		System.out.println(gameEngine.gameGui.getScreen());
 		refresh(player);
-		
+
 		/* Määritellään pelaajan tietopaneelit pelaajan tietojen mukaisiksi */
 		applicationPanel.addComponent(applicationLabel);
 		allowancePanel.addComponent(allowanceLabel);
@@ -76,7 +76,7 @@ public class GameWindow extends Window {
 					player.getApplications().get(i).increaseDateCounter(1);
 				}
 				for (int i = 0; i < player.getAllowances().size(); i++) {
-					player.getAllowances().get(i).increaseDateCounter(1);
+					player.getAllowances().get(i).increaseDate(player);
 				}
 
 				refresh(player);
@@ -207,7 +207,7 @@ public class GameWindow extends Window {
 		} else {
 			allowanceLabel.setText("Hyväksyttyjä tukipäätöksiä: "+player.getAllowances().size()+" kpl");
 		}
-		
+
 		healthLabel.setText("Hyvinvointi: "+Integer.toString(player.getPlayerHealth())+"%");
 		sanityLabel.setText("Mielenterveys: "+Integer.toString(player.getPlayerSanity())+"%");
 		hungerLabel.setText("Nälkä: "+Integer.toString(player.getPlayerHunger())+"%");

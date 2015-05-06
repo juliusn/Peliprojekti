@@ -2,7 +2,6 @@ package peliprojekti;
 
 import java.io.Serializable;
 
-import com.googlecode.lanterna.gui.Border;
 import com.googlecode.lanterna.gui.GUIScreen;
 
 public class GameEngine implements Serializable {

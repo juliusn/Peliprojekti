@@ -29,6 +29,18 @@ public class Application implements Serializable {
 			break;
 		}
 	}
+	public String getForeName() {
+		return this.foreName;
+	}
+	public String getSurName() {
+		return this.surName;
+	}
+	public String getSsn() {
+		return this.ssn;
+	}
+	public String getExplanation() {
+		return this.explanation;
+	}
 	public void setForeName(String foreName) {
 		this.foreName = foreName;
 	}
