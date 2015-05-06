@@ -1,4 +1,4 @@
-package peliprojekti;
+package kelasim;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,10 +29,37 @@ public class Player implements Serializable {
 		applications = new ArrayList<Application>(); /* Lista käsittelyssä olevista hakemuksista */
 		allowances = new ArrayList<Allowance>(); /* Lista tuista*/
 		foreNames.add("Aapo");
+		foreNames.add("Teemu");
+		foreNames.add("Anita");
+		foreNames.add("Laila");
+		foreNames.add("Simo");
+		foreNames.add("Valtteri");
+		foreNames.add("Johannes");
+		foreNames.add("Tuomo");
+		foreNames.add("Kari");
+		foreNames.add("Eetu");
+		foreNames.add("Taneli");
+		foreNames.add("Heikki");
+		foreNames.add("Nelli");
+		foreNames.add("Irma");
+		foreNames.add("Helena");
 		foreNames.add("Juha");
 		foreNames.add("Pirkko");
 		surNames.add("Asikainen");
-		surNames.add("Asikainen");
+		surNames.add("Viitanen");
+		surNames.add("Törmälä");
+		surNames.add("Kankaanaho");
+		surNames.add("Kiila");
+		surNames.add("Hänninen");
+		surNames.add("Ronkanen");
+		surNames.add("Krohn");
+		surNames.add("Penttilä");
+		surNames.add("Kimiläinen");
+		surNames.add("Pennanen");
+		surNames.add("Weckström");
+		surNames.add("Kokko");
+		surNames.add("Saari");
+		surNames.add("Hiltunen");
 		surNames.add("Pettersson");
 		this.foreName = foreNames.get(rng.nextInt(foreNames.size()));
 		this.surName = surNames.get(rng.nextInt(surNames.size()));

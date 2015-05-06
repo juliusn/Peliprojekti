@@ -1,4 +1,4 @@
-package peliprojekti; // jotain muuta
+package kelasim; // jotain muuta
 import java.nio.charset.Charset;
 
 import com.googlecode.lanterna.TerminalFacade;

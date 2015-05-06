@@ -1,4 +1,4 @@
-package peliprojekti;
+package kelasim;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

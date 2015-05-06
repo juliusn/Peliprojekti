@@ -1,4 +1,4 @@
-package peliprojekti;
+package kelasim;
 
 public class Calendar {
 	public int dateCounter = 0;

@@ -1,4 +1,4 @@
-package peliprojekti;
+package kelasim;
 
 import com.googlecode.lanterna.gui.Window;
 import com.googlecode.lanterna.gui.component.Panel;

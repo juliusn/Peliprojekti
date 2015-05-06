@@ -1,4 +1,4 @@
-package peliprojekti;
+package kelasim;
 
 public class Allowance {
 	private String allowanceType;
