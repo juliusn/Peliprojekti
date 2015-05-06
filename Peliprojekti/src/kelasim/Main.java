@@ -29,7 +29,7 @@ public class Main {
 		String startupMsg = "KelaSim Starting In "; 
 		screenWriter.setForegroundColor(Terminal.Color.WHITE);
 		screenWriter.setBackgroundColor(Terminal.Color.CYAN);
-		for (int i = 0; i > 0; i--){
+		for (int i = 5; i > 0; i--){
 			// i = kuinka monta sekuntia startup-viesti näkyy
 			screenWriter.drawString(screenSize.getColumns()/2-startupMsg.length()/2, screenSize.getRows()/2, startupMsg+i);
 			startupGui.getScreen().refresh();

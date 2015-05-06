@@ -27,6 +27,9 @@ public class GameWindow extends Window {
 	Panel moneyPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 	Panel foodPanel = new Panel(new Border.Bevel(true), Panel.Orientation.HORISONTAL);
 
+	/* KelaSim-logo */
+	Panel logoPanel = new Panel(Panel.Orientation.VERTICAL);
+	
 	/* Keskelle: Pelaajan toimintopaneeli */
 	Panel actionPanel = new Panel(Panel.Orientation.VERTICAL);
 	Panel middleContainer = new Panel(Panel.Orientation.HORISONTAL);
@@ -59,6 +62,12 @@ public class GameWindow extends Window {
 		System.out.println(gameEngine.gameGui.getScreen());
 		refresh(player);
 
+		/*logoPanel.addComponent(new Label("|  /  ___            __"));
+		logoPanel.addComponent(new Label("| /  |    |     /\  /   | |\  /|"));
+		logoPanel.addComponent(new Label("|/   |__  |    |__| \_  | | \/ |"));
+		logoPanel.addComponent(new Label("| \  |    |    |  |   \ | |    |"));
+		logoPanel.addComponent(new Label(""));*/
+		
 		/* Määritellään pelaajan tietopaneelit pelaajan tietojen mukaisiksi */
 		applicationPanel.addComponent(applicationLabel);
 		allowancePanel.addComponent(allowanceLabel);
@@ -176,24 +185,26 @@ public class GameWindow extends Window {
 		addComponent(middleContainer);
 		addComponent(new EmptySpace(1, 1), LinearLayout.MAXIMIZES_VERTICALLY);
 		addComponent(playerPanel);
-
-
-		int testCounter = 0;
-		testCounter++;
-		System.out.println("GameWindow completed "+testCounter+" times");
 	}
 
+	
+	
 	public void refresh(Player player) {
 		/* Hakemusten tila tarkistetaan */
 		for (int i = 0; i < player.getApplications().size(); i++) {
 			player.getApplications().get(i).check(player);
 			if (player.getApplications().get(i).isApproved()) {
-				MessageBox.showMessageBox(getOwner(), "", player.getApplications().get(i).getApplicationType()+" hyväksytty!");
+				player.getApplications().get(i).setProcessed();
+				MessageBox.showMessageBox(getOwner(), "Viesti Kelalta", player.getApplications().get(i).getExplanation());
+				player.removeApplication(player.getApplications().get(i).getApplicationType());
+			} else if (!player.getApplications().get(i).isApproved()
+					&& player.getApplications().get(i).isProcessed()) {
+				MessageBox.showMessageBox(getOwner(), "Viesti Kelalta", player.getApplications().get(i).getExplanation());
 				player.removeApplication(player.getApplications().get(i).getApplicationType());
 			}
 		}
 		for (int i = 0; i < player.getAllowances().size(); i++) {
-			// Tukimaksut tähän
+			player.getAllowances().get(i).increaseDate(player);
 		}
 		/* Pelinäkymän tiedot päivitetään */
 		ageLabel.setText("Päivä: "+Integer.toString(player.getPlayerAge()));
@@ -214,6 +225,7 @@ public class GameWindow extends Window {
 		foodLabel.setText("Ruokaa: "+Integer.toString(player.getPlayerFood())+" mk edestä");
 		moneyLabel.setText("Rahaa tilillä: "+Integer.toString(player.getPlayerMoney())+" markkaa");
 
+		
 
 		/* Tarkistetaan, jatkuuko peli */
 		if (player.getPlayerHealth() == 0) {

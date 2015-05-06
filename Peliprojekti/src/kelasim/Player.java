@@ -28,39 +28,7 @@ public class Player implements Serializable {
 		this.keepPlaying = true;
 		applications = new ArrayList<Application>(); /* Lista käsittelyssä olevista hakemuksista */
 		allowances = new ArrayList<Allowance>(); /* Lista tuista*/
-		foreNames.add("Aapo");
-		foreNames.add("Teemu");
-		foreNames.add("Anita");
-		foreNames.add("Laila");
-		foreNames.add("Simo");
-		foreNames.add("Valtteri");
-		foreNames.add("Johannes");
-		foreNames.add("Tuomo");
-		foreNames.add("Kari");
-		foreNames.add("Eetu");
-		foreNames.add("Taneli");
-		foreNames.add("Heikki");
-		foreNames.add("Nelli");
-		foreNames.add("Irma");
-		foreNames.add("Helena");
-		foreNames.add("Juha");
-		foreNames.add("Pirkko");
-		surNames.add("Asikainen");
-		surNames.add("Viitanen");
-		surNames.add("Törmälä");
-		surNames.add("Kankaanaho");
-		surNames.add("Kiila");
-		surNames.add("Hänninen");
-		surNames.add("Ronkanen");
-		surNames.add("Krohn");
-		surNames.add("Penttilä");
-		surNames.add("Kimiläinen");
-		surNames.add("Pennanen");
-		surNames.add("Weckström");
-		surNames.add("Kokko");
-		surNames.add("Saari");
-		surNames.add("Hiltunen");
-		surNames.add("Pettersson");
+		addNames();
 		this.foreName = foreNames.get(rng.nextInt(foreNames.size()));
 		this.surName = surNames.get(rng.nextInt(surNames.size()));
 		this.money = 100;
@@ -175,6 +143,61 @@ public class Player implements Serializable {
 	}
 	public void stopPlaying() {
 		this.keepPlaying = false;
+	}
+	private void addNames() {
+		foreNames.add("Aapo");
+		foreNames.add("Teemu");
+		foreNames.add("Juha");
+		foreNames.add("Simo");
+		foreNames.add("Valtteri");
+		foreNames.add("Johannes");
+		foreNames.add("Tuomo");
+		foreNames.add("Kari");
+		foreNames.add("Eetu");
+		foreNames.add("Jorma");
+		foreNames.add("Taneli");
+		foreNames.add("Heikki");
+		foreNames.add("Petteri");
+		
+		foreNames.add("Annukka");
+		foreNames.add("Laila");
+		foreNames.add("Kyllikki");
+		foreNames.add("Nelli");
+		foreNames.add("Irma");
+		foreNames.add("Helena");
+		foreNames.add("Anita");
+		foreNames.add("Pirkko");
+		foreNames.add("Anna-Liisa");
+		foreNames.add("Kirsti");
+		foreNames.add("Anu");
+		foreNames.add("Minna");
+		foreNames.add("Tarja");
+		
+		surNames.add("Asikainen");
+		surNames.add("Viitanen");
+		surNames.add("Hennala");
+		surNames.add("Kankaanaho");
+		surNames.add("Kiila");
+		surNames.add("Manninen");
+		surNames.add("Ronkanen");
+		surNames.add("Vartiala");
+		surNames.add("Romppainen");
+		surNames.add("Ketola");
+		surNames.add("Vehanen");
+		surNames.add("Krohn");
+		surNames.add("Anttila");
+		surNames.add("Kumulainen");
+		surNames.add("Pennanen");
+		surNames.add("Holmberg");
+		surNames.add("Kokko");
+		surNames.add("Saari");
+		surNames.add("Hiltunen");
+		surNames.add("Erola");
+		surNames.add("Korpela");
+		surNames.add("Ekberg");
+		surNames.add("Laitinen");
+		surNames.add("Kinnunen");
+		surNames.add("Moisio");
 	}
 
 }

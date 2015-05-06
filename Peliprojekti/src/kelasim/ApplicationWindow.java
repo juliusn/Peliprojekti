@@ -10,12 +10,12 @@ import com.googlecode.lanterna.gui.component.TextBox;
 import com.googlecode.lanterna.gui.dialog.MessageBox;
 
 public class ApplicationWindow extends Window {
-	private String name = null;
+	protected String name = null;
 	final TextBox fillForeNameBox = new TextBox("");
 	final TextBox fillSurNameBox = new TextBox("");
 	final TextBox fillSsnBox = new TextBox("");
 	final TextBox fillDateOfBirthBox = new TextBox("");
-
+	Label instructions = new Label("", 100);
 	Panel instructionsPanel = new Panel();
 	Panel fillForeNamePanel = new Panel(new Border.Invisible(), Panel.Orientation.HORISONTAL);
 	Panel fillSurNamePanel = new Panel(new Border.Invisible(), Panel.Orientation.HORISONTAL);
@@ -26,7 +26,7 @@ public class ApplicationWindow extends Window {
 	public ApplicationWindow(String title, Player player) {
 		super(title);
 		this.name = title;
-
+		this.instructions.setText("Undefined");
 		System.out.println("New TPRApplication "+title+" created");
 	}
 
@@ -41,17 +41,7 @@ public class ApplicationWindow extends Window {
 		fillSurNamePanel.addComponent(fillSurNameBox);
 		fillSsnPanel.addComponent(new Label("Sosiaaliturvatunnus:"));
 		fillSsnPanel.addComponent(fillSsnBox);
-		Label instructions = new Label("", 50);
-		switch (this.name) {
-		case "Työttömyyspäivärahahakemus":
-			instructions.setText("Työttömyyspäivärahaa maksetaan työttömille työnhakijoille.\n"
-					+ "Sinun täytyy olla ilmoittautunut työnhakijaksi työnhakutoimistossa.");
-		case "Asumistukihakemus":
-			instructions.setText("Asumistuki maksetaan suoraan vuokranantajalle, joka vähentää tuen määrän vuokrastasi.");
-
-		case "Toimeentulotukihakemus":
-			instructions.setText("Toimeentulotukea maksetaan harkinnanvaraisesti työttömille, heikkotuloisille ja muille ali-ihmisille.");
-		}
+		
 		instructionsPanel.addComponent(instructions);
 		addComponent(instructionsPanel);
 		addComponent(fillForeNamePanel);
@@ -72,21 +62,22 @@ public class ApplicationWindow extends Window {
 		})));
 
 	}
+	
 	public void send(final Player player) {
 		Application application = new Application(this.name, player);
-		application.setForeName("fillForeNameBox.getText()");
-		application.setSurName("fillSurNameBox.getText()");
-		application.setSsn("fillSsnBox.getText()");
+		application.setForeName(fillForeNameBox.getText());
+		application.setSurName(fillSurNameBox.getText());
+		application.setSsn(fillSsnBox.getText());
 		Boolean canAdd = true;
 		for (int i = 0; i < player.getApplications().size(); i++) {
-			if (player.getApplications().get(i).getApplicationType() == application.getApplicationType()) {
+			if (player.getApplications().get(i).getApplicationType().equals(application.getApplicationType())) {
 				MessageBox.showMessageBox(getOwner(), "", application.getApplicationType()+" on jo käsittelyssä.");
 				canAdd = false;
 			}
 		}
 		if (canAdd) {
 			player.addApplication(application);
-			MessageBox.showMessageBox(getOwner(), "", "Hakemus lähetetty.");
+			MessageBox.showMessageBox(getOwner(), "Viesti Kelalta", "Hakemus vastaanotettu.");
 			close();
 		}
 	}

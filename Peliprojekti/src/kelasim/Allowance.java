@@ -1,6 +1,9 @@
 package kelasim;
 
-public class Allowance {
+import java.io.Serializable;
+
+public class Allowance implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String allowanceType;
 	private int amount;
 	private int cycle;
@@ -9,28 +12,33 @@ public class Allowance {
 	private int payments;
 	public boolean isApproved;
 
-	public Allowance(String name, Player player) {
-		this.allowanceType = name;
+	public Allowance(TprApplication tprApplication, Player player) {
+		this.allowanceType = "Työttömyyspäivärahatuki";
 		this.isApproved = true;
 		this.cycleCounter = 0;
-		switch (name) {
-		case "Työttömyyspäivärahahakemus":
-			this.cycle = 30;
-			this.amount = 300;
-			this.payments = 6;
-			break;
-		case "Toimeentulotukihakemus":
-			this.cycle = 30;
-			this.amount = 150;
-			this.payments = 1;
-			break;
-		case "Asumistukihakemus":
-			this.cycle = 30;
-			this.amount = 250;
-			this.payments = 12;
-			break;
-		}
+		this.cycle = 30;
+		this.amount = 300;
+		this.payments = 6;
 	}
+
+	public Allowance(TttApplication tttApplication, Player player) {
+		this.allowanceType = "Toimeentulotuki";
+		this.isApproved = true;
+		this.cycleCounter = 0;
+		this.cycle = 30;
+		this.amount = 150;
+		this.payments = 1;
+	}
+	
+	public Allowance(AtApplication atApplication, Player player) {
+		this.allowanceType = "Asumistuki";
+		this.isApproved = true;
+		this.cycleCounter = 0;
+		this.cycle = 30;
+		this.amount = 250;
+		this.payments = 12;
+	}
+
 
 	public String getAllowanceType() {
 		return this.allowanceType;
@@ -42,14 +50,14 @@ public class Allowance {
 			this.cycleCounter++;
 		} else {
 			this.cycleCounter = 0;
-			player.changePlayerMoney(amount);
+			player.changePlayerMoney(amount); /* Maksu */
 			this.payments--;
 			if (this.payments == 0) {
 				this.isApproved = false;
 				player.getAllowances().remove(this);
 			}
 		}
-		
+
 	}
 	public int getAmount() {
 		return this.amount;

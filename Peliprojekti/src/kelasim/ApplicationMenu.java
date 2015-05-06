@@ -11,26 +11,26 @@ public class ApplicationMenu extends Window {
 		super("Valitse Hakemus");
 		addComponent((new Button("Työttömyyspäivärahahakemus", new Action(){
 			public void doAction() {
-				ApplicationWindow application = new ApplicationWindow("Työttömyyspäivärahahakemus", player);
-				application.fill(player, gameWindow);
+				ApplicationWindow tprApplicationWindow = new TprApplicationWindow("Työttömyyspäivärahahakemus", player);
+				tprApplicationWindow.fill(player, gameWindow);
 				close();
-				getOwner().showWindow(application, GUIScreen.Position.CENTER);
+				getOwner().showWindow(tprApplicationWindow, GUIScreen.Position.CENTER);
 			}
 		})));
 		addComponent((new Button("Asumistukihakemus", new Action(){
 			public void doAction() {
-				ApplicationWindow application = new ApplicationWindow("Asumistukihakemus", player);
-				application.fill(player, gameWindow);
+				ApplicationWindow atApplicationWindow = new AtApplicationWindow("Asumistukihakemus", player);
+				atApplicationWindow.fill(player, gameWindow);
 				close();
-				getOwner().showWindow(application, GUIScreen.Position.CENTER);
+				getOwner().showWindow(atApplicationWindow, GUIScreen.Position.CENTER);
 			}
 		})));
 		addComponent((new Button("Toimeentulotukihakemus", new Action(){
 			public void doAction() {
-				ApplicationWindow application = new ApplicationWindow("Toimeentulotukihakemus", player);
-				application.fill(player, gameWindow);
+				ApplicationWindow tttApplicationWindow = new TttApplicationWindow("Toimeentulotukihakemus", player);
+				tttApplicationWindow.fill(player, gameWindow);
 				close();
-				getOwner().showWindow(application, GUIScreen.Position.CENTER);
+				getOwner().showWindow(tttApplicationWindow, GUIScreen.Position.CENTER);
 			}
 		})));
 		addComponent((new Button("Sulje", new Action(){
